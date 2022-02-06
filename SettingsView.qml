@@ -4,10 +4,8 @@ import QtQuick.Controls 2.5
 Page {
     width: 600
     height: 400
-
     title: qsTr("Settings")
 
-    //        title: qsTr("Connect to database")
     Row {
         id: row
         anchors.fill: parent
@@ -107,14 +105,25 @@ Page {
                 checkable: false
                 highlighted: false
                 flat: false
+
+                onClicked: writeSettings()
             }
         }
     }
-}
 
-/*##^##
-Designer {
-    D{i:0;formeditorZoom:0.9}
-}
-##^##*/
+    function writeSettings() {
+        settingsConnectDatabase.host = hostInput.text
+        settingsConnectDatabase.port = Number(portInput.text)
+        settingsConnectDatabase.databaseName = databaseInput.text
+        settingsConnectDatabase.userName = userNameInput.text
+        settingsConnectDatabase.password = passwordInput.text
+    }
 
+    function readSettings() {
+        hostInput.text = settingsConnectDatabase.host
+        portInput.text = settingsConnectDatabase.port
+        databaseInput.text = settingsConnectDatabase.databaseName
+        userNameInput.text = settingsConnectDatabase.userName
+        passwordInput.text = settingsConnectDatabase.password
+    }
+}

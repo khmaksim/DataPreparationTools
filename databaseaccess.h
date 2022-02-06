@@ -18,7 +18,7 @@ class DatabaseAccess : public QObject
 
         void initConnectDatabase(const QString &host, int port, const QString &nameDatabase, const QString &user, const QString &password);
         bool isConnected() const;
-        bool connect(const QVariant &configConectDatabase = QVariant());
+        Q_INVOKABLE bool connect(const QVariant &configConectDatabase = QVariant());
 
     private:
         DatabaseAccess(QObject *parent = nullptr);

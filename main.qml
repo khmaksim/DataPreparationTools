@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
+import Qt.labs.settings 1.0
 
 ApplicationWindow {
     id: window
@@ -7,6 +8,15 @@ ApplicationWindow {
     height: 480
     visible: true
     title: qsTr("Stack")
+
+    Settings {
+        id: settingsConnectDatabase
+        property string host: "localhost"
+        property int port: 5432
+        property string databaseName: "postgres"
+        property string userName: "postgres"
+        property string password: ""
+    }
 
     header: ToolBar {
         contentHeight: toolButton.implicitHeight
@@ -42,7 +52,8 @@ ApplicationWindow {
                 text: qsTr("Settings")
                 width: parent.width
                 onClicked: {
-                    stackView.push("Settings.ui.qml")
+                    stackView.push("SettingsView.qml")
+                    stackView.currentItem.readSettings()
                     drawer.close()
                 }
             }
@@ -61,5 +72,23 @@ ApplicationWindow {
         id: stackView
         initialItem: "HomeForm.ui.qml"
         anchors.fill: parent
+    }
+
+    function readSettings() {
+        var configConnectToDb = {}
+
+        configConnectToDb["host"] = settingsConnectDatabase.host
+        configConnectToDb["port"] = settingsConnectDatabase.port
+        configConnectToDb["databaseName"] = settingsConnectDatabase.databaseName
+        configConnectToDb["userName"] = settingsConnectDatabase.userName
+        configConnectToDb["password"] = settingsConnectDatabase.password
+
+        return configConnectToDb
+    }
+
+    Component.onCompleted: {
+        console.log("Call connected database")
+        var config = readSettings()
+        database.connect(config)
     }
 }

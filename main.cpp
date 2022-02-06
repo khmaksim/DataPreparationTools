@@ -14,6 +14,9 @@ int main(int argc, char *argv[])
 #endif
 
     QGuiApplication app(argc, argv);
+    app.setOrganizationName("Aviacominfo");
+    app.setOrganizationDomain("aviacominfo.com");
+    app.setApplicationName("DataPreparationTools");
 
     QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();
