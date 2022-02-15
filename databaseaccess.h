@@ -11,10 +11,9 @@ class DatabaseAccess : public QObject
 {
         Q_OBJECT
     public:
-        static DatabaseAccess* getInstance();
+        static DatabaseAccess* instance();
 
-        QVector<Record> getAirways();
-        QVector<Record> getPoints();
+        QVector<Record> getData();
 
         void initConnectDatabase(const QString &host, int port, const QString &nameDatabase, const QString &user, const QString &password);
         bool isConnected() const;

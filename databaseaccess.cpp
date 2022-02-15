@@ -12,7 +12,7 @@ DatabaseAccess::DatabaseAccess(QObject *parent) : QObject(parent)
 {
 }
 
-DatabaseAccess* DatabaseAccess::getInstance()
+DatabaseAccess* DatabaseAccess::instance()
 {
     static DatabaseAccess instance;
 //    instance.connect();               // SQLite
@@ -71,38 +71,13 @@ bool DatabaseAccess::connect(const QVariant &configConectDatabase)
     return true;
 }
 
-QVector<Record> DatabaseAccess::getAirways()
+QVector<Record> DatabaseAccess::getData()
 {
-    QSqlQuery query(db);
-    QVector<Record> airways = QVector<Record>();
-
-    query.exec("SELECT txt_desig FROM public.en_route_rte WHERE txt_desig <> '' ORDER BY txt_desig");
-    while (query.next()) {
-        Record record;
-        QSqlRecord sqlRecord = query.record();
-
-        int col = 0;
-        while (col < sqlRecord.count()){
-            record.insert(col, query.value(col));
-            col++;
-        }
-        airways.append(record);
-    }
-    return airways;
-}
-
-QVector<Record> DatabaseAccess::getPoints()
-{
+    qDebug() << "Call from QML";
     QSqlQuery query(db);
     QVector<Record> points = QVector<Record>();
 
-    query.exec("SELECT rr.txt_desig, sp.txt_name, sp.geo_lat, sp.geo_long, rs.val_mag_track, "
-               "rs.val_revers_mag_track, rs.val_len, rs.val_dist_ver_upper, rs.val_dist_ver_lower, "
-               "rs.val_dist_ver_mnm, rs.val_wid "
-               "FROM public.en_route_rte rr "
-               "LEFT OUTER JOIN public.rte_seg rs ON rr.id = rs.route "
-               "LEFT OUTER JOIN public.significant_point sp ON sp.id = rs.point "
-               "ORDER BY rr.txt_desig, rs.seqnr");
+    query.exec("SELECT * FROM backup.CATALOG");
 
     if (query.lastError().isValid())
         qDebug() << query.lastError().text() << query.lastQuery();

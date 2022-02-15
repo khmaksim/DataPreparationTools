@@ -49,6 +49,14 @@ ApplicationWindow {
             anchors.fill: parent
 
             ItemDelegate {
+                text: qsTr("View data")
+                width: parent.width
+                onClicked: {
+                    stackView.push("ViewData.qml")
+                    drawer.close()
+                }
+            }
+            ItemDelegate {
                 text: qsTr("Settings")
                 width: parent.width
                 onClicked: {
@@ -57,12 +65,20 @@ ApplicationWindow {
                     drawer.close()
                 }
             }
+//            ItemDelegate {
+//                text: qsTr("Page 2")
+//                width: parent.width
+//                onClicked: {
+//                    stackView.push("Page2Form.ui.qml")
+//                    drawer.close()
+//                }
+//            }
             ItemDelegate {
-                text: qsTr("Page 2")
+                text: qsTr("Quit")
                 width: parent.width
                 onClicked: {
-                    stackView.push("Page2Form.ui.qml")
                     drawer.close()
+                    window.close()
                 }
             }
         }
@@ -89,6 +105,6 @@ ApplicationWindow {
     Component.onCompleted: {
         console.log("Call connected database")
         var config = readSettings()
-        database.connect(config)
+        dataManagement.connectToSourceData(config)
     }
 }
