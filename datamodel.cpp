@@ -6,29 +6,25 @@
 DataModel::DataModel(QObject *parent) : QAbstractTableModel(parent),
     currentRowCount(0)
 {
-    for (int i = 0; i < 10000; i++) {
-//        QVariant value = QCryptographicHash::hash(QString::number(QRandomGenerator::global()->generate() & std::numeric_limits<qint64>::max()).toLatin1(), QCryptographicHash::Md5);
-        QVariant value = QString::number(i) + "." + QString::number(QRandomGenerator::global()->generate() & std::numeric_limits<qint64>::max()).toLatin1();
-        dataList.append(value);
-
-    }
-    wholeRowCount = dataList.size();
-    headers << QString("Value");
 }
 
 DataModel::~DataModel()
 {
-
 }
 
 int DataModel::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return currentRowCount;
+//    return (dataModel.size() > 100) ? 100 : dataModel.size();
 }
 
 int DataModel::columnCount(const QModelIndex &parent) const
 {
-    return 12;
+    Q_UNUSED(parent)
+    if (dataModel.size() > 0)
+        return dataModel.at(0).size();
+    return 0;
 }
 
 QVariant DataModel::data(const QModelIndex &index, int role) const
@@ -37,7 +33,7 @@ QVariant DataModel::data(const QModelIndex &index, int role) const
         return QVariant();
 
     if (role == Qt::DisplayRole)
-        return dataList.at(index.row()).toString();
+        return dataModel.at(index.row()).at(index.column()).toString();
 
      return QVariant();
 }
@@ -54,15 +50,15 @@ QHash<int, QByteArray> DataModel::roleNames() const
 {
     return {
         {Qt::DisplayRole, "display"},
-        {1, "markId"},
-        {2, "trackId"},
-        {3, "rlsId"},
-        {4, "time"},
-        {5, "position"},
-        {6, "velocity"},
-        {7, "acceleration"},
-        {8, "sigmasRBetaEps"},
-        {9, "sigmasdRdBetadEps"},
+//        {1, "markId"},
+//        {2, "trackId"},
+//        {3, "rlsId"},
+//        {4, "time"},
+//        {5, "position"},
+//        {6, "velocity"},
+//        {7, "acceleration"},
+//        {8, "sigmasRBetaEps"},
+//        {9, "sigmasdRdBetadEps"},
     };
 }
 
@@ -86,4 +82,13 @@ void DataModel::fetchMore(const QModelIndex &index)
     beginInsertRows(QModelIndex(), currentRowCount, currentRowCount + toFetch - 1);
     currentRowCount += toFetch;
     endInsertRows();
+}
+
+void DataModel::setDataModel(const QVector<QVector<QVariant>> &data)
+{
+    wholeRowCount = dataModel.size();
+    beginResetModel();
+    currentRowCount = dataModel.size();
+    dataModel = data;
+    endResetModel();
 }

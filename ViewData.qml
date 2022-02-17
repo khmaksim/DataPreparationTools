@@ -1,25 +1,36 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
+//import QtQuick.Controls 1.4 as OldControls
+import QtQml 2.12
 import com.aviacominfo.datapreparationtools.datamodel 0.1
 
 Page {
     title: qsTr("View data")
+    property string nameQuery: ""
 
     TableView {
         id: viewData
         anchors.fill: parent
         columnSpacing: 1
         rowSpacing: 1
-//        clip: true
+        leftMargin: 10
+        rightMargin: 10
+        clip: true
 
-        model: dataManagement.dataModel() //DataModel {}
+        model: dataManagement.dataModel()
 
         delegate: Rectangle {
             implicitWidth: 100
-            implicitHeight: 50
+            implicitHeight: 25
             Text {
                 text: display
+                padding: 5
+                horizontalAlignment: Text.AlignHCenter
             }
+        }
+        Component.onCompleted: {
+
+            dataManagement.getData(configConnectToDB)
         }
 //        sortIndicatorVisible: true
 
@@ -37,7 +48,7 @@ Page {
 //        onSortIndicatorColumnChanged: model.sort(sortIndicatorColumn, sortIndicatorOrder)
 //        onSortIndicatorOrderChanged: model.sort(sortIndicatorColumn, sortIndicatorOrder)
     }
+
     Component.onCompleted: {
-        dataManagement.getData()
     }
 }

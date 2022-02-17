@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
+import QtQml 2.12
 import Qt.labs.settings 1.0
 
 ApplicationWindow {
@@ -9,12 +10,14 @@ ApplicationWindow {
     visible: true
     title: qsTr("Stack")
 
+    property var configConnectToDB: ({})
+
     Settings {
         id: settingsConnectDatabase
         property string host: "localhost"
         property int port: 5432
-        property string databaseName: "postgres"
-        property string userName: "postgres"
+        property string nameDatabase: "postgres"
+        property string user: "postgres"
         property string password: ""
     }
 
@@ -61,7 +64,7 @@ ApplicationWindow {
                 width: parent.width
                 onClicked: {
                     stackView.push("SettingsView.qml")
-                    stackView.currentItem.readSettings()
+//                    stackView.currentItem.readSettings()
                     drawer.close()
                 }
             }
@@ -86,25 +89,28 @@ ApplicationWindow {
 
     StackView {
         id: stackView
-        initialItem: "HomeForm.ui.qml"
+        initialItem: "HomeForm.qml"
         anchors.fill: parent
     }
 
     function readSettings() {
-        var configConnectToDb = {}
+        configConnectToDB["host"] = settingsConnectDatabase.host
+        configConnectToDB["port"] = settingsConnectDatabase.port
+        configConnectToDB["nameDatabase"] = settingsConnectDatabase.nameDatabase
+        configConnectToDB["user"] = settingsConnectDatabase.user
+        configConnectToDB["password"] = settingsConnectDatabase.password
 
-        configConnectToDb["host"] = settingsConnectDatabase.host
-        configConnectToDb["port"] = settingsConnectDatabase.port
-        configConnectToDb["databaseName"] = settingsConnectDatabase.databaseName
-        configConnectToDb["userName"] = settingsConnectDatabase.userName
-        configConnectToDb["password"] = settingsConnectDatabase.password
-
-        return configConnectToDb
+        console.log('-ReadSettings[main]-')
+        console.log(configConnectToDB["host"])
+        console.log(configConnectToDB["port"])
+        console.log(configConnectToDB["nameDatabase"])
+        console.log(configConnectToDB["user"])
+        console.log(configConnectToDB["password"])
+        console.log('---')
     }
 
     Component.onCompleted: {
-        console.log("Call connected database")
-        var config = readSettings()
-        dataManagement.connectToSourceData(config)
+        readSettings();
+        dataManagement.createShp();
     }
 }

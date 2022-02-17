@@ -14,8 +14,9 @@ class DataManagement: public QObject
         DataManagement();
 
         Q_INVOKABLE void connectToSourceData(const QVariant config = QVariant());
-        Q_INVOKABLE void getData();
-        Q_INVOKABLE DataModel* dataModel() { return model; }
+        Q_INVOKABLE void getData(const QVariant config);
+        Q_INVOKABLE DataModel* dataModel() { return model;}
+        Q_INVOKABLE void createShp();
 
     public:
         DataModel *model;

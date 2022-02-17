@@ -6,31 +6,28 @@
 #include <QMap>
 #include <QVariant>
 
-typedef QMap<int, QVariant> Record;
+typedef QMap<QVariant, QVariant> Record;
 class DatabaseAccess : public QObject
 {
         Q_OBJECT
     public:
-        static DatabaseAccess* instance();
+        DatabaseAccess(QObject *parent = nullptr);
 
-        QVector<Record> getData();
+        void getData(const QVariant &configConectDatabase, QVector<Record> &airways, QVector<QVariant> &header);
 
         void initConnectDatabase(const QString &host, int port, const QString &nameDatabase, const QString &user, const QString &password);
         bool isConnected() const;
-        Q_INVOKABLE bool connect(const QVariant &configConectDatabase = QVariant());
+        bool connect(const QVariant &configConectDatabase = QVariant());
 
-    private:
-        DatabaseAccess(QObject *parent = nullptr);
-        DatabaseAccess(const DatabaseAccess&);
-        DatabaseAccess& operator =(const DatabaseAccess);
-//        static DatabaseAccess *databaseAccess;
-
-        QSqlDatabase db;
+    public:
         QString host;
         QString nameDatabase;
         QString user;
         QString password;
         int port;
+
+    private:
+        QSqlDatabase db;
 
     signals:
         void connected();

@@ -31,6 +31,7 @@ Page {
                 rightPadding: 12
                 leftPadding: 16
                 placeholderText: "localhost"
+                text: settingsConnectDatabase.host
             }
             Label {
                 id: portLabel
@@ -45,20 +46,22 @@ Page {
                 rightPadding: 12
                 leftPadding: 16
                 placeholderText: "5432"
+                text: settingsConnectDatabase.port
             }
             Label {
-                id: databaseLabel
+                id: nameDatabaseLabel
                 text: qsTr("Database name")
                 font.pixelSize: 14
             }
             TextField {
-                id: databaseInput
+                id: nameDatabaseInput
                 width: 280
                 height: 48
                 font.pixelSize: 16
                 rightPadding: 12
                 leftPadding: 16
                 placeholderText: "postgres"
+                text: settingsConnectDatabase.nameDatabase
             }
             Label {
                 id: userNameLabel
@@ -73,6 +76,7 @@ Page {
                 rightPadding: 12
                 leftPadding: 16
                 placeholderText: "postgres"
+                text: settingsConnectDatabase.user
             }
             Label {
                 id: passwordLabel
@@ -87,6 +91,7 @@ Page {
                 rightPadding: 12
                 leftPadding: 16
                 echoMode: TextInput.Password
+                text: settingsConnectDatabase.password
             }
 
             Button {
@@ -112,16 +117,16 @@ Page {
     function writeSettings() {
         settingsConnectDatabase.host = hostInput.text
         settingsConnectDatabase.port = Number(portInput.text)
-        settingsConnectDatabase.databaseName = databaseInput.text
-        settingsConnectDatabase.userName = userNameInput.text
+        settingsConnectDatabase.nameDatabase= nameDatabaseInput.text
+        settingsConnectDatabase.user = userNameInput.text
         settingsConnectDatabase.password = passwordInput.text
     }
 
-    function readSettings() {
-        hostInput.text = settingsConnectDatabase.host
-        portInput.text = settingsConnectDatabase.port
-        databaseInput.text = settingsConnectDatabase.databaseName
-        userNameInput.text = settingsConnectDatabase.userName
-        passwordInput.text = settingsConnectDatabase.password
-    }
+//    function readSettings() {
+//        hostInput.text = settingsConnectDatabase.host
+//        portInput.text = settingsConnectDatabase.port
+//        nameDatabaseInput.text = settingsConnectDatabase.nameDatabase
+//        userNameInput.text = settingsConnectDatabase.user
+//        passwordInput.text = settingsConnectDatabase.password
+//    }
 }

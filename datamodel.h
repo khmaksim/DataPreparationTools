@@ -16,20 +16,24 @@ class DataModel : public QAbstractTableModel
 
         static void declareQML(QQmlContext *context) {
             qmlRegisterType<DataModel>("com.aviacominfo.datapreparationtools.datamodel", 0, 1, "DataModel");
-            context->setContextProperty("dataModel", new DataModel());
+//            context->setContextProperty("dataModel", new DataModel());
         }
 
-        Q_INVOKABLE int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+        int rowCount(const QModelIndex &parent = QModelIndex()) const override;
         int columnCount(const QModelIndex &parent = QModelIndex()) const override;
         QVariant data(const QModelIndex &index, int role) const override;
         QHash<int, QByteArray> roleNames() const override;
         QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+        void setDataModel(const QVector<QVector<QVariant>> &data);
+        void setHeader(const QVector<QVariant> &headers) { this->headers = headers; }
+
+    protected:
         bool canFetchMore(const QModelIndex &parent) const override;
         void fetchMore(const QModelIndex &index) override;
 
     private:
-        QList<QVariant> dataList;
-        QStringList headers;
+        QVector<QVector<QVariant>> dataModel;
+        QVector<QVariant> headers;
         int wholeRowCount;
         int currentRowCount;
 };
