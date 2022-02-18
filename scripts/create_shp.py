@@ -7,13 +7,9 @@ import os
 arcpy.env.workspace = r'path_name'
 arcpy.env.overwriteOutput = True
 work_path = r'path_name'
-name_sql_script = work_path + 'airways.sql'
 result_shp = 'airways.shp'
-
-with open(name_sql_script, 'r') as file_script:
-        sql_query = file_script.read()
-
-
+rows = []
+print('asdasdasd')
 workspace = work_path
 
 sr = arcpy.SpatialReference(26915)

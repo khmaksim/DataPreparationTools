@@ -1,7 +1,7 @@
 QT += quick sql
 
-CONFIG += c++11 staticlib
-QMAKE_CXXFLAGS_WARN_ON = -Wall -fPIE
+CONFIG += c++11# staticlib
+#QMAKE_CXXFLAGS_WARN_ON = -Wall -fPIE
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -26,7 +26,7 @@ LIBS += C:\Python27\ArcGIS10.8\libs\python27.lib
 INCLUDEPATH += patterns/ \
             C:\Python27\ArcGIS10.8\include
 
-QMAKE_CXXFLAGS += C:\Python27\ArcGIS10.8\libs\python27.lib
+#QMAKE_CXXFLAGS += C:\Python27\ArcGIS10.8\libs\python27.lib
 
 TRANSLATIONS += \
     DataPreparationTools_ru_RU.ts
