@@ -23,7 +23,7 @@ class DataModel : public QAbstractTableModel
         int columnCount(const QModelIndex &parent = QModelIndex()) const override;
         QVariant data(const QModelIndex &index, int role) const override;
         QHash<int, QByteArray> roleNames() const override;
-        QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+        Q_INVOKABLE QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
         void setDataModel(const QVector<QVector<QVariant>> &data);
         void setHeader(const QVector<QVariant> &headers) { this->headers = headers; }
 

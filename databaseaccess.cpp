@@ -85,15 +85,21 @@ void DatabaseAccess::getData(const QVariant &configConectDatabase, QVector<Recor
         qDebug() << query.lastError().text() << query.lastQuery();
     }
 
+    bool isHeaderFull = false;
     while (query.next()) {
         Record record;
         QSqlRecord sqlRecord = query.record();
         int col = 0;
-        while (col < sqlRecord.count()){
+
+        while (col < sqlRecord.count()) {
+            if (!isHeaderFull)
+                header.append(sqlRecord.fieldName(col));
+
             record.insert(col, query.value(col));
             col++;
         }
         airways.append(record);
+        isHeaderFull = true;
     }
 }
 

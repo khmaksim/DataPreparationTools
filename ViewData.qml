@@ -13,14 +13,46 @@ Page {
         anchors.fill: parent
         columnSpacing: 1
         rowSpacing: 1
-        leftMargin: 10
-        rightMargin: 10
+//        leftMargin: 10
+        topMargin: columnsHeader.implicitHeight
         clip: true
+        columnWidthProvider: function (column) { return 120; }
 
         model: dataManagement.dataModel()
+        ScrollBar.vertical: ScrollBar{}
+
+//        Rectangle {
+//            z: 3
+//            color: "#222222"
+//            y: viewData.contentY
+//            x: viewData.contentX
+//            width: viewData.leftMargin
+//            height: viewData.topMargin
+//        }
+
+        Row {
+            id: columnsHeader
+            y: viewData.contentY
+            z: 2
+            spacing: 1
+
+            Repeater {
+                model: viewData.columns > 0 ? viewData.columns : 1
+                Label {
+                    width: viewData.columnWidthProvider(modelData)
+                    height: 35
+                    text: dataManagement.dataModel().headerData(modelData, Qt.Horizontal)
+                    color: "#aaaaaa"
+                    font.pixelSize: 12
+                    padding: 10
+                    verticalAlignment: Text.AlignVCenter
+                    background: Rectangle { color: "#d5d5d5" }
+                }
+            }
+        }
 
         delegate: Rectangle {
-            implicitWidth: 100
+            implicitWidth: 120
             implicitHeight: 25
             Text {
                 text: display
@@ -29,7 +61,6 @@ Page {
             }
         }
         Component.onCompleted: {
-
             dataManagement.getData(configConnectToDB)
         }
 //        sortIndicatorVisible: true
@@ -47,8 +78,6 @@ Page {
 
 //        onSortIndicatorColumnChanged: model.sort(sortIndicatorColumn, sortIndicatorOrder)
 //        onSortIndicatorOrderChanged: model.sort(sortIndicatorColumn, sortIndicatorOrder)
-    }
-
-    Component.onCompleted: {
+        ScrollIndicator.vertical: ScrollIndicator{}
     }
 }
