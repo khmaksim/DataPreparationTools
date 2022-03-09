@@ -1,10 +1,13 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>HomeForm.qml</file>
+        <file>MainForm.qml</file>
         <file>ViewData.qml</file>
         <file>SettingsView.qml</file>
         <file>Page2Form.ui.qml</file>
         <file>qtquickcontrols2.conf</file>
+    </qresource>
+    <qresource prefix="/icons">
+        <file>res/icons/1x/baseline_get_app_white_24dp.png</file>
     </qresource>
 </RCC>

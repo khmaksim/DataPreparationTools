@@ -3,7 +3,7 @@ import QtQuick.Controls 2.5
 
 Page {
     id: page
-    title: qsTr("Home")
+    title: qsTr("Main")
 
     Grid {
         id: grid
@@ -24,12 +24,7 @@ Page {
             onClicked: {
                 stackView.pop()
                 stackView.push("ViewData.qml", {"nameQuery": "airways"})
-                while (true) {
-                    if (stackView.visible) {
-//                        dataManagement.getData(configConnectToDB)
-                        break
-                    }
-                }
+//                dataManagement.getData(configConnectToDB)
             }
         }
 

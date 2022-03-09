@@ -86,9 +86,9 @@ void DataModel::fetchMore(const QModelIndex &index)
 
 void DataModel::setDataModel(const QVector<QVector<QVariant>> &data)
 {
-    wholeRowCount = dataModel.size();
     beginResetModel();
-    currentRowCount = dataModel.size();
     dataModel = data;
+    wholeRowCount = dataModel.size();
+    currentRowCount = dataModel.size();
     endResetModel();
 }

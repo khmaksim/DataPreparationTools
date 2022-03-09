@@ -2,10 +2,12 @@ import QtQuick 2.12
 import QtQuick.Controls 2.5
 //import QtQuick.Controls 1.4 as OldControls
 import QtQml 2.12
+import QtQuick.Dialogs 1.3
 import com.aviacominfo.datapreparationtools.datamodel 0.1
 
 Page {
     title: qsTr("View data")
+    objectName: "ViewData"
     property string nameQuery: ""
 
     TableView {
@@ -14,7 +16,7 @@ Page {
         columnSpacing: 1
         rowSpacing: 1
 //        leftMargin: 10
-        topMargin: columnsHeader.implicitHeight
+//        topMargin: columnsHeader.implicitHeight
         clip: true
         columnWidthProvider: function (column) { return 120; }
 
@@ -30,26 +32,26 @@ Page {
 //            height: viewData.topMargin
 //        }
 
-        Row {
-            id: columnsHeader
-            y: viewData.contentY
-            z: 2
-            spacing: 1
+//        Row {
+//            id: columnsHeader
+//            y: viewData.contentY
+//            z: 2
+//            spacing: 1
 
-            Repeater {
-                model: viewData.columns > 0 ? viewData.columns : 1
-                Label {
-                    width: viewData.columnWidthProvider(modelData)
-                    height: 35
-                    text: dataManagement.dataModel().headerData(modelData, Qt.Horizontal)
-                    color: "#aaaaaa"
-                    font.pixelSize: 12
-                    padding: 10
-                    verticalAlignment: Text.AlignVCenter
-                    background: Rectangle { color: "#d5d5d5" }
-                }
-            }
-        }
+//            Repeater {
+//                model: viewData.columns > 0 ? viewData.columns : 1
+//                Label {
+//                    width: viewData.columnWidthProvider(modelData)
+//                    height: 35
+//                    text: dataManagement.dataModel().headerData(modelData, Qt.Horizontal)
+//                    color: "#aaaaaa"
+//                    font.pixelSize: 12
+//                    padding: 10
+//                    verticalAlignment: Text.AlignVCenter
+//                    background: Rectangle { color: "#d5d5d5" }
+//                }
+//            }
+//        }
 
         delegate: Rectangle {
             implicitWidth: 120
@@ -80,4 +82,21 @@ Page {
 //        onSortIndicatorOrderChanged: model.sort(sortIndicatorColumn, sortIndicatorOrder)
         ScrollIndicator.vertical: ScrollIndicator{}
     }
+
+    Connections {
+        target: dataManagement
+
+        function onComplitedCreateShape() {
+            messageDialog.open()
+        }
+    }
+
+    MessageDialog {
+         id: messageDialog
+         title: qsTr("Information")
+         text: qsTr("File creation completed.")
+         icon: StandardIcon.Information
+         standardButtons: StandardButton.Close
+         onButtonClicked: close()
+     }
 }

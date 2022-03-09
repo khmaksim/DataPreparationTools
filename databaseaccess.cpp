@@ -77,7 +77,8 @@ void DatabaseAccess::getData(const QVariant &configConectDatabase, QVector<Recor
                "LEFT JOIN \"CATALOG\" as ct_lw ON rts.uom_dist_ver_lower = ct_lw.id "
                "LEFT JOIN \"CATALOG\" as ct_up ON rts.uom_dist_ver_upper = ct_up.id "
                "LEFT JOIN \"GEO_BORDER\" as geo_b ON geo_b.id = rts.border "
-               "LEFT JOIN \"CATALOG\" as ct_dir ON ct_dir.id = rts_u.code_dir");
+               "LEFT JOIN \"CATALOG\" as ct_dir ON ct_dir.id = rts_u.code_dir "
+               "ORDER BY rt.txt_desig");
 
     if (query.lastError().isValid()) {
         QTextCodec *coding = QTextCodec::codecForName("cp-1251");

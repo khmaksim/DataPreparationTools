@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQml 2.12
+import QtQuick.Layouts 1.14
 import Qt.labs.settings 1.0
 
 ApplicationWindow {
@@ -8,7 +9,7 @@ ApplicationWindow {
     width: 640
     height: 480
     visible: true
-    title: qsTr("Stack")
+    title: qsTr("DataPreparationTools")
 
     property var configConnectToDB: ({})
 
@@ -24,22 +25,37 @@ ApplicationWindow {
     header: ToolBar {
         contentHeight: toolButton.implicitHeight
 
-        ToolButton {
-            id: toolButton
-            text: stackView.depth > 1 ? "\u25C0" : "\u2630"
-            font.pixelSize: Qt.application.font.pixelSize * 1.6
-            onClicked: {
-                if (stackView.depth > 1) {
-                    stackView.pop()
-                } else {
-                    drawer.open()
+        RowLayout {
+            anchors.fill: parent
+            ToolButton {
+                id: toolButton
+                text: stackView.depth > 1 ? "\u25C0" : "\u2630"
+                font.pixelSize: Qt.application.font.pixelSize * 1.6
+                onClicked: {
+                    if (stackView.depth > 1) {
+                        stackView.pop()
+                    } else {
+                        drawer.open()
+                    }
                 }
             }
-        }
 
-        Label {
-            text: stackView.currentItem.title
-            anchors.centerIn: parent
+            Label {
+                text: stackView.currentItem.title
+                horizontalAlignment: Qt.AlignHCenter
+                verticalAlignment: Qt.AlignVCenter
+                Layout.fillWidth: true
+                rightPadding: getButton.visible ? 0 : getButton.implicitWidth
+            }
+
+            ToolButton {
+                id: getButton
+                icon.source: "qrc:/icons/res/icons/1x/baseline_get_app_white_24dp.png"
+                visible: stackView.currentItem.objectName == "ViewData"
+                onClicked: {
+                    dataManagement.createShp()
+                }
+            }
         }
     }
 
@@ -89,7 +105,7 @@ ApplicationWindow {
 
     StackView {
         id: stackView
-        initialItem: "HomeForm.qml"
+        initialItem: "MainForm.qml"
         anchors.fill: parent
     }
 
@@ -100,7 +116,7 @@ ApplicationWindow {
         configConnectToDB["user"] = settingsConnectDatabase.user
         configConnectToDB["password"] = settingsConnectDatabase.password
 
-        console.log('-ReadSettings[main]-')
+        console.log('---ReadSettings[main]---')
         console.log(configConnectToDB["host"])
         console.log(configConnectToDB["port"])
         console.log(configConnectToDB["nameDatabase"])
@@ -111,6 +127,5 @@ ApplicationWindow {
 
     Component.onCompleted: {
         readSettings();
-        dataManagement.createShp();
     }
 }
