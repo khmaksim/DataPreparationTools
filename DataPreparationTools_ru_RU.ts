@@ -4,19 +4,22 @@
 <context>
     <name>MainForm</name>
     <message>
-        <location filename="MainForm.qml" line="6"/>
+        <location filename="MainForm.qml" line="7"/>
         <source>Main</source>
         <translation>Главная</translation>
     </message>
     <message>
-        <location filename="MainForm.qml" line="22"/>
+        <location filename="MainForm.qml" line="23"/>
         <source>AIRWAYS</source>
         <translation>Воздушные трассы</translation>
     </message>
     <message>
-        <location filename="MainForm.qml" line="35"/>
-        <location filename="MainForm.qml" line="43"/>
-        <location filename="MainForm.qml" line="51"/>
+        <location filename="MainForm.qml" line="36"/>
+        <source>POINTS</source>
+        <translation>ТОЧКИ</translation>
+    </message>
+    <message>
+        <location filename="MainForm.qml" line="49"/>
         <location filename="MainForm.qml" line="57"/>
         <location filename="MainForm.qml" line="63"/>
         <location filename="MainForm.qml" line="69"/>
@@ -25,8 +28,29 @@
         <location filename="MainForm.qml" line="87"/>
         <location filename="MainForm.qml" line="93"/>
         <location filename="MainForm.qml" line="99"/>
+        <location filename="MainForm.qml" line="105"/>
         <source>Reserve</source>
         <translation>Резерв</translation>
+    </message>
+    <message>
+        <location filename="MainForm.qml" line="122"/>
+        <source>Information</source>
+        <translation>Информация</translation>
+    </message>
+    <message>
+        <location filename="MainForm.qml" line="123"/>
+        <source>File creation completed.</source>
+        <translation>Создание файла завершено.</translation>
+    </message>
+    <message>
+        <location filename="MainForm.qml" line="129"/>
+        <source>Warning</source>
+        <translation>Предупреждение</translation>
+    </message>
+    <message>
+        <location filename="MainForm.qml" line="130"/>
+        <source>Failed to connect to the data source.</source>
+        <translation>Не удалось подключиться к источнику данных.</translation>
     </message>
 </context>
 <context>
@@ -88,14 +112,12 @@
         <translation>Просмотр данных</translation>
     </message>
     <message>
-        <location filename="ViewData.qml" line="96"/>
         <source>Information</source>
-        <translation>Информация</translation>
+        <translation type="vanished">Информация</translation>
     </message>
     <message>
-        <location filename="ViewData.qml" line="97"/>
         <source>File creation completed.</source>
-        <translation>Создание файла завершено.</translation>
+        <translation type="vanished">Создание файла завершено.</translation>
     </message>
 </context>
 <context>
