@@ -1,28 +1,36 @@
 #include "datamanagement.h"
 #include "databaseaccess.h"
 #include "datamodel.h"
-#include "Singleton.h"
+#include "databaseaccess.h"
+//#include "Singleton.h"
 #include <Python.h>
 
 DataManagement::DataManagement()
 {
     model = new DataModel(this);
+    databaseAccess = new DatabaseAccess(this);
 }
 
 void DataManagement::connectToSourceData(const QVariant config)
 {
-    Singleton<DatabaseAccess>::instance().connect(config);
+    bool isConnected = databaseAccess->connect(config);
+    if (!isConnected) {
+        emit rejectedDataSource();
+        qDebug() << "Rejected data source";
+    }
 }
 
 void DataManagement::getData(const QVariant config)
 {
-    QVector<Record> airways;
+    QVector<Record> dataRecords;
     QVector<QVariant> headers;
-    Singleton<DatabaseAccess>::instance().getData(config, airways, headers);
-    QVector<Record>::const_iterator it = airways.cbegin();
+
+    databaseAccess->getData(dataRecords, headers, config);
+
+    QVector<Record>::const_iterator it = dataRecords.cbegin();
     QVector<QVector<QVariant>> dataAll;
 
-    while (it != airways.cend()) {
+    while (it != dataRecords.cend()) {
         QList<QVariant> values = (*it).values();
         QList<QVariant>::const_iterator itValue = values.cbegin();
         QVector<QVariant> dataLine;

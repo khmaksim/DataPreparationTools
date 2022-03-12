@@ -127,5 +127,6 @@ ApplicationWindow {
 
     Component.onCompleted: {
         readSettings();
+        dataManagement.connectToSourceData(configConnectToDB)
     }
 }

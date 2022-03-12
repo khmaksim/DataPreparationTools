@@ -57,9 +57,10 @@ bool DatabaseAccess::connect(const QVariant &configConectDatabase)
     return true;
 }
 
-void DatabaseAccess::getData(const QVariant &configConectDatabase, QVector<Record> &airways, QVector<QVariant> &header)
+void DatabaseAccess::getData(QVector<Record> &airways, QVector<QVariant> &header, const QVariant &configConnectDatabase)
 {
-    this->connect(configConectDatabase);
+    if (!configConnectDatabase.isNull())
+        this->connect(configConnectDatabase);
 
     QSqlQuery query(db);
 

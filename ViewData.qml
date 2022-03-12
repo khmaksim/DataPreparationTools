@@ -63,7 +63,7 @@ Page {
             }
         }
         Component.onCompleted: {
-            dataManagement.getData(configConnectToDB)
+            dataManagement.getData()
         }
 //        sortIndicatorVisible: true
 
@@ -82,21 +82,4 @@ Page {
 //        onSortIndicatorOrderChanged: model.sort(sortIndicatorColumn, sortIndicatorOrder)
         ScrollIndicator.vertical: ScrollIndicator{}
     }
-
-    Connections {
-        target: dataManagement
-
-        function onComplitedCreateShape() {
-            messageDialog.open()
-        }
-    }
-
-    MessageDialog {
-         id: messageDialog
-         title: qsTr("Information")
-         text: qsTr("File creation completed.")
-         icon: StandardIcon.Information
-         standardButtons: StandardButton.Close
-         onButtonClicked: close()
-     }
 }

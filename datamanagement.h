@@ -6,6 +6,7 @@
 #include <QDebug>
 
 class DataModel;
+class DatabaseAccess;
 class QAbstractTableModel;
 class DataManagement: public QObject
 {
@@ -15,15 +16,17 @@ class DataManagement: public QObject
         DataManagement();
 
         Q_INVOKABLE void connectToSourceData(const QVariant config = QVariant());
-        Q_INVOKABLE void getData(const QVariant config);
+        Q_INVOKABLE void getData(const QVariant config = QVariant());
         Q_INVOKABLE DataModel* dataModel() { return model; }
         Q_INVOKABLE void createShp();
 
     public:
         DataModel *model;
+        DatabaseAccess *databaseAccess;
 
     signals:
         void complitedCreateShape();
+        void rejectedDataSource();
         void count(QString);
 };
 
