@@ -100,7 +100,7 @@ Page {
                 text: qsTr("Accept")
                 anchors.right: parent.right
                 font.pixelSize: 14
-                anchors.rightMargin: 220
+//                anchors.rightMargin: 220
                 rightPadding: 16
                 leftPadding: 16
                 autoExclusive: false
