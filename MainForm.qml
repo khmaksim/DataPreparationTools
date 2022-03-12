@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
+import QtQuick.Dialogs 1.3
 
 Page {
     id: page
@@ -32,8 +33,13 @@ Page {
             id: button
             width: grid.getWidthItem()
             height: grid.getHeightItem()
-            text: qsTr("Reserve")
+            text: qsTr("POINTS")
             enabled: false
+
+            onClicked: {
+                stackView.pop()
+                stackView.push("ViewData.qml", {"nameQuery": "point"})
+            }
         }
 
         Button {
@@ -108,4 +114,29 @@ Page {
             return ((height - (rows - 1) * spacing - padding * 2) / rows)
         }
     }
+
+    Connections {
+        target: dataManagement
+
+        function onComplitedCreateShape() {
+            messageDialog.title = qsTr("Information")
+            messageDialog.text = qsTr("File creation completed.")
+            messageDialog.icon = StandardIcon.Information
+            messageDialog.open()
+        }
+
+        function onRejectedDataSource() {
+            messageDialog.title = qsTr("Warning")
+            messageDialog.text = qsTr("Failed to connect to the data source.")
+            messageDialog.icon = StandardIcon.Warning
+            messageDialog.open()
+        }
+    }
+
+    MessageDialog {
+         id: messageDialog
+//         text: qsTr("File creation completed.")
+         standardButtons: StandardButton.Close
+         onButtonClicked: close()
+     }
 }
