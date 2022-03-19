@@ -16,13 +16,16 @@ class DataManagement: public QObject
         DataManagement();
 
         Q_INVOKABLE void connectToSourceData(const QVariant config = QVariant());
-        Q_INVOKABLE void getData(const QVariant config = QVariant());
+        Q_INVOKABLE void fillDataModel(const QString name, const QVariant config = QVariant());
         Q_INVOKABLE DataModel* dataModel() { return model; }
         Q_INVOKABLE void createShp();
 
     public:
         DataModel *model;
         DatabaseAccess *databaseAccess;
+
+    private:
+        QString currentNameDate;
 
     signals:
         void complitedCreateShape();

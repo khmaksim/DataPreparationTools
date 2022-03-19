@@ -13,7 +13,7 @@ class DatabaseAccess : public QObject
     public:
         DatabaseAccess(QObject *parent = nullptr);
 
-        void getData(QVector<Record> &airways, QVector<QVariant> &header, const QVariant &configConnectDatabase = QVariant());
+        void getData(const QString &name, QVector<Record> &airways, QVector<QVariant> &header, const QVariant &configConnectDatabase = QVariant());
 
         void initConnectDatabase(const QString &host, int port, const QString &nameDatabase, const QString &user, const QString &password);
         bool isConnected() const;
@@ -27,6 +27,8 @@ class DatabaseAccess : public QObject
         int port;
 
         QSqlDatabase db;
+
+        QMap<QString, QString> querySqlStr;
 
     signals:
         void connected();

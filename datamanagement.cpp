@@ -20,12 +20,12 @@ void DataManagement::connectToSourceData(const QVariant config)
     }
 }
 
-void DataManagement::getData(const QVariant config)
+void DataManagement::fillDataModel(const QString name, const QVariant config)
 {
     QVector<Record> dataRecords;
     QVector<QVariant> headers;
-
-    databaseAccess->getData(dataRecords, headers, config);
+    currentNameDate = name;
+    databaseAccess->getData(name, dataRecords, headers, config);
 
     QVector<Record>::const_iterator it = dataRecords.cbegin();
     QVector<QVector<QVariant>> dataAll;
@@ -70,7 +70,7 @@ void DataManagement::createShp()
 
             for (int iCol = 0; iCol < model->columnCount(); iCol++)
                 row.append(model->index(iRow, iCol).data().toString());
-            PyRun_SimpleString(QString("create_shp.addData('%1')").arg(row.join(";")).toLocal8Bit().constData()/*.toLatin1()*/);
+            PyRun_SimpleString(QString("create_shp.addLineData('%1')").arg(row.join(";")).toLocal8Bit().constData()/*.toLatin1()*/);
         }
 
         QDir dir(qApp->applicationDirPath());
@@ -79,7 +79,7 @@ void DataManagement::createShp()
             qDebug() << "mkdir";
         }
 
-        PyRun_SimpleString(QString("create_shp.createShp('%1')").arg(qApp->applicationDirPath().append("\\shp")).toLocal8Bit().constData());
+        PyRun_SimpleString(QString("create_shp.createShp('%1', '%2')").arg(currentNameDate).arg(qApp->applicationDirPath().append("\\shp")).toLocal8Bit().constData());
 
 //        PyRun_SimpleString("print(simple.get_value(2.0))");
 //        PyRun_SimpleString("print(simple.get_value(\"Hello!\"))");

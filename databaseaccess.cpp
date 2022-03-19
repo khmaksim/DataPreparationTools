@@ -11,6 +11,26 @@
 
 DatabaseAccess::DatabaseAccess(QObject *parent) : QObject(parent)
 {
+    querySqlStr.insert("airways", QString("SELECT rt.txt_desig, COALESCE(point_st.txt_name, '') AS point_st, COALESCE(point_nx.txt_name, '') AS point_nx, "
+                                          "COALESCE(rts.val_mag_track, 0) AS val_mag_track, COALESCE(rts.val_revers_mag_track, 0) AS val_revers_mag_track, "
+                                          "COALESCE(ct_lw.txt_code, '') AS ct_lw, COALESCE(rts.val_dist_ver_upper, 0) AS val_dist_ver_upper, "
+                                          "COALESCE(ct_up.txt_code, '') AS ct_up, COALESCE(rts.val_dist_ver_lower, 0) AS val_dist_ver_lower, "
+                                          "ROUND(COALESCE(rts.val_len, 0), 0) AS rts_val_len, COALESCE(geo_b.txt_code, '') AS geo_code, "
+                                          "COALESCE(ct_dir.full_name, '') AS ct_dir_full_name "
+                                          "FROM public.en_route_rte as rt "
+                                          "LEFT JOIN rte_seg_m as rts ON rt.id = rts.route "
+                                          "LEFT JOIN rte_seg_use as rts_u ON rts_u.segment = rts.id "
+                                          "LEFT JOIN significant_point as point_st ON point_st.id = rts.start "
+                                          "LEFT JOIN significant_point as point_nx ON point_nx.id = rts.next "
+                                          "LEFT JOIN \"CATALOG\" as ct_lw ON rts.uom_dist_ver_lower = ct_lw.id "
+                                          "LEFT JOIN \"CATALOG\" as ct_up ON rts.uom_dist_ver_upper = ct_up.id "
+                                          "LEFT JOIN \"GEO_BORDER\" as geo_b ON geo_b.id = rts.border "
+                                          "LEFT JOIN \"CATALOG\" as ct_dir ON ct_dir.id = rts_u.code_dir "
+                                          "ORDER BY rt.txt_desig"));
+
+    querySqlStr.insert("points", QString("SELECT sp.point_type, dp.code_id, sp.geo_lat, sp.geo_long, dp.id, gb.txt_name AS country "
+                                         "FROM designated_point dp, significant_point sp, \"GEO_BORDER\" gb "
+                                         "WHERE dp.id = sp.id AND sp.border = gb.id"));
 }
 
 void DatabaseAccess::initConnectDatabase(const QString &host, int port, const QString &nameDatabase, const QString &user, const QString &password)
@@ -57,29 +77,17 @@ bool DatabaseAccess::connect(const QVariant &configConectDatabase)
     return true;
 }
 
-void DatabaseAccess::getData(QVector<Record> &airways, QVector<QVariant> &header, const QVariant &configConnectDatabase)
+void DatabaseAccess::getData(const QString &name, QVector<Record> &data, QVector<QVariant> &header, const QVariant &configConnectDatabase)
 {
     if (!configConnectDatabase.isNull())
         this->connect(configConnectDatabase);
 
+    if (!querySqlStr.contains(name))
+        return;
+
     QSqlQuery query(db);
 
-    query.exec("SELECT rt.txt_desig, COALESCE(point_st.txt_name, '') AS point_st, COALESCE(point_nx.txt_name, '') AS point_nx, "
-               "COALESCE(rts.val_mag_track, 0) AS val_mag_track, COALESCE(rts.val_revers_mag_track, 0) AS val_revers_mag_track, "
-               "COALESCE(ct_lw.txt_code, '') AS ct_lw, COALESCE(rts.val_dist_ver_upper, 0) AS val_dist_ver_upper, "
-               "COALESCE(ct_up.txt_code, '') AS ct_up, COALESCE(rts.val_dist_ver_lower, 0) AS val_dist_ver_lower, "
-               "ROUND(COALESCE(rts.val_len, 0), 0) AS rts_val_len, COALESCE(geo_b.txt_code, '') AS geo_code, "
-               "COALESCE(ct_dir.full_name, '') AS ct_dir_full_name "
-               "FROM public.en_route_rte as rt "
-               "LEFT JOIN rte_seg_m as rts ON rt.id = rts.route "
-               "LEFT JOIN rte_seg_use as rts_u ON rts_u.segment = rts.id "
-               "LEFT JOIN significant_point as point_st ON point_st.id = rts.start "
-               "LEFT JOIN significant_point as point_nx ON point_nx.id = rts.next "
-               "LEFT JOIN \"CATALOG\" as ct_lw ON rts.uom_dist_ver_lower = ct_lw.id "
-               "LEFT JOIN \"CATALOG\" as ct_up ON rts.uom_dist_ver_upper = ct_up.id "
-               "LEFT JOIN \"GEO_BORDER\" as geo_b ON geo_b.id = rts.border "
-               "LEFT JOIN \"CATALOG\" as ct_dir ON ct_dir.id = rts_u.code_dir "
-               "ORDER BY rt.txt_desig");
+    query.exec(querySqlStr.value(name));
 
     if (query.lastError().isValid()) {
         QTextCodec *coding = QTextCodec::codecForName("cp-1251");
@@ -100,7 +108,7 @@ void DatabaseAccess::getData(QVector<Record> &airways, QVector<QVariant> &header
             record.insert(col, query.value(col));
             col++;
         }
-        airways.append(record);
+        data.append(record);
         isHeaderFull = true;
     }
 }

@@ -8,7 +8,6 @@ import com.aviacominfo.datapreparationtools.datamodel 0.1
 Page {
     title: qsTr("View data")
     objectName: "ViewData"
-    property string nameQuery: ""
 
     TableView {
         id: viewData
@@ -63,7 +62,7 @@ Page {
             }
         }
         Component.onCompleted: {
-            dataManagement.getData()
+//            dataManagement.getData()
         }
 //        sortIndicatorVisible: true
 
