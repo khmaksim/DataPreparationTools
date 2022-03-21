@@ -28,9 +28,10 @@ DatabaseAccess::DatabaseAccess(QObject *parent) : QObject(parent)
                                           "LEFT JOIN \"CATALOG\" as ct_dir ON ct_dir.id = rts_u.code_dir "
                                           "ORDER BY rt.txt_desig"));
 
-    querySqlStr.insert("points", QString("SELECT sp.point_type, dp.code_id, sp.geo_lat, sp.geo_long, dp.id, gb.txt_name AS country "
-                                         "FROM designated_point dp, significant_point sp, \"GEO_BORDER\" gb "
-                                         "WHERE dp.id = sp.id AND sp.border = gb.id"));
+    querySqlStr.insert("points", QString("SELECT COALESCE(cat.txt_name, ''), COALESCE(sp.txt_name, ''), COALESCE(sp.geo_lat, 0), "
+                                         "COALESCE(sp.geo_long, 0), COALESCE(sp.id, 0), COALESCE(gb.txt_name, '') AS country "
+                                         "FROM designated_point dp, significant_point sp, \"GEO_BORDER\" gb, \"CATALOG\" cat "
+                                         "WHERE dp.id = sp.id AND sp.border = gb.id AND cat.id = dp.code_type"));
 }
 
 void DatabaseAccess::initConnectDatabase(const QString &host, int port, const QString &nameDatabase, const QString &user, const QString &password)

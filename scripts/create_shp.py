@@ -5,8 +5,9 @@ import arcpy
 rows = []
 
 def addLineData(data):
-    rows = data.split(';')
-    print(rows)
+    row = data.split(';')
+    rows.append(row)
+    print(row)
 
 def createShp(name, path_to_result):
     print('Start create shp-file')
@@ -38,7 +39,7 @@ def createShp(name, path_to_result):
         with arcpy.da.InsertCursor(result_shp, ['NAME', 'RTE_POINTS', 'ik1', 'ik2', 'HMIN', 'HMAX',
         'LENGTH_KM', 'COUNTRY', 'LINE_TYPE', 'RTE_TYPE']) as cursor:
             for row in rows:
-                name = row[0]
+                name_airway = row[0]
                 rte_point = row[1] + '-' + row[2]
                 ik1 = row[3]
                 ik2 = row[4]
@@ -48,30 +49,27 @@ def createShp(name, path_to_result):
                 country = row[10]
                 line_type = 'INTER'
                 rte_type = row[11]
-                cursor.insertRow([name, rte_point, ik1, ik2, h_min, h_max, length, country, line_type, rte_type])
+                cursor.insertRow([name_airway, rte_point, ik1, ik2, h_min, h_max, length, country, line_type, rte_type])
         del cursor
     elif name == 'points':
         arcpy.CreateFeatureclass_management(out_path=work_path, out_name=result_shp, geometry_type='POINT', spatial_reference = sr)
         arcpy.AddField_management(result_shp, 'TYP','TEXT')
         arcpy.AddField_management(result_shp, 'DESIGNATOR','TEXT')
-        arcpy.AddField_management(result_shp, 'LATITUDE','FLOAT')
-        arcpy.AddField_management(result_shp, 'LONGITUDE','FLOAT')
-        arcpy.AddField_management(result_shp, 'ID','LONG')
+        arcpy.AddField_management(result_shp, 'LATITUDE','TEXT')
+        arcpy.AddField_management(result_shp, 'LONGITUDE','TEXT')
+        arcpy.AddField_management(result_shp, 'ID_','LONG')
         arcpy.AddField_management(result_shp, 'COUNTRY','TEXT')
         arcpy.AddField_management(result_shp, 'Notes','TEXT')
         arcpy.AddField_management(result_shp, 'ZZZ','LONG')
 
-        with arcpy.da.InsertCursor(result_shp, ['TYP', 'DESIGNATOR', 'LATITUDE', 'LONGITUDE', 'ID',
-        'COUNTRY', 'Notes', 'ZZZ']) as cursor:
+        with arcpy.da.InsertCursor(result_shp, ['TYP', 'DESIGNATOR', 'LATITUDE', 'LONGITUDE', 'ID_', 'COUNTRY']) as cursor:
             for row in rows:
-                type = row[0]
+                type_point = row[0]
                 designator = row[1]
                 lat = row[2]
                 lon = row[3]
-                id = row[4]
+                id_point = long(row[4])
                 country = row[5]
-                notes = ''
-                zzz = 0
-                cursor.insertRow([type, designator, lat, lon, id, country, notes, zzz])
+                cursor.insertRow([type_point, designator, lat, lon, id_point, country])
         del cursor
     print('End create shp-file')
