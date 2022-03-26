@@ -28,8 +28,14 @@ DatabaseAccess::DatabaseAccess(QObject *parent) : QObject(parent)
                                           "LEFT JOIN \"CATALOG\" as ct_dir ON ct_dir.id = rts_u.code_dir "
                                           "ORDER BY rt.txt_desig"));
 
-    querySqlStr.insert("points", QString("SELECT COALESCE(cat.txt_name, ''), COALESCE(sp.txt_name, ''), COALESCE(sp.geo_lat, 0), "
-                                         "COALESCE(sp.geo_long, 0), COALESCE(sp.id, 0), COALESCE(gb.txt_name, '') AS country "
+    querySqlStr.insert("points", QString("SELECT COALESCE(cat.txt_name, ''), COALESCE(sp.txt_name, ''), "
+                                         "CAST(CASE WHEN COALESCE(sp.geo_lat, 0) > 0 THEN CONCAT(sp.geo_lat::varchar, 'N') "
+                                         "WHEN COALESCE(sp.geo_lat, 0) < 0 THEN CONCAT(sp.geo_lat::varchar, 'S') "
+                                         "ELSE '0' END AS text), "
+                                         "CAST(CASE WHEN COALESCE(sp.geo_long, 0) > 0 THEN CONCAT(sp.geo_long::varchar, 'E') "
+                                         "WHEN COALESCE(sp.geo_long, 0) < 0 THEN CONCAT(sp.geo_long::varchar, 'W') "
+                                         "ELSE '0' END AS text), "
+                                         "COALESCE(sp.id, 0), COALESCE(gb.txt_name, '') AS country "
                                          "FROM designated_point dp, significant_point sp, \"GEO_BORDER\" gb, \"CATALOG\" cat "
                                          "WHERE dp.id = sp.id AND sp.border = gb.id AND cat.id = dp.code_type"));
 }
