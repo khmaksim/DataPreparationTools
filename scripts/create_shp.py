@@ -72,4 +72,32 @@ def createShp(name, path_to_result):
                 country = row[5]
                 cursor.insertRow([type_point, designator, lat, lon, id_point, country])
         del cursor
+    elif name == 'rts':
+        arcpy.CreateFeatureclass_management(out_path=work_path, out_name=result_shp, geometry_type='POINT', spatial_reference = sr)
+        arcpy.AddField_management(result_shp, 'NAME_RUS','TEXT')
+        arcpy.AddField_management(result_shp, 'NAME','TEXT')
+        arcpy.AddField_management(result_shp, 'TYP','TEXT')
+        arcpy.AddField_management(result_shp, 'FREQ','FLOAT')
+        arcpy.AddField_management(result_shp, 'DESIGNATOR','TEXT')
+        arcpy.AddField_management(result_shp, 'MAGVAR','DOUBLE')
+        arcpy.AddField_management(result_shp, 'ID_','LONG')
+        arcpy.AddField_management(result_shp, 'LATITUDE','TEXT')
+        arcpy.AddField_management(result_shp, 'LONGITUDE','TEXT')
+        arcpy.AddField_management(result_shp, 'CHANNEL','TEXT')
+        arcpy.AddField_management(result_shp, 'Habs','DOUBLE')
+        arcpy.AddField_management(result_shp, 'Rotate','DOUBLE', field_scale=2)
+        arcpy.AddField_management(result_shp, 'COUNTRY','TEXT')
+        arcpy.AddField_management(result_shp, 'Notes','TEXT')
+        arcpy.AddField_management(result_shp, 'ZZZ','LONG')
+
+        with arcpy.da.InsertCursor(result_shp, ['TYP', 'DESIGNATOR', 'LATITUDE', 'LONGITUDE', 'ID_', 'COUNTRY']) as cursor:
+            for row in rows:
+                type_point = row[0]
+                designator = row[1]
+                lat = row[2]
+                lon = row[3]
+                id_point = long(row[4])
+                country = row[5]
+                cursor.insertRow([type_point, designator, lat, lon, id_point, country])
+        del cursor
     print('End create shp-file')

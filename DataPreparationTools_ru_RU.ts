@@ -14,41 +14,45 @@
         <translation>Воздушные трассы</translation>
     </message>
     <message>
-        <location filename="MainForm.qml" line="36"/>
+        <location filename="MainForm.qml" line="32"/>
         <source>POINTS</source>
         <translation>ТОЧКИ</translation>
     </message>
     <message>
-        <location filename="MainForm.qml" line="49"/>
-        <location filename="MainForm.qml" line="57"/>
-        <location filename="MainForm.qml" line="63"/>
-        <location filename="MainForm.qml" line="69"/>
-        <location filename="MainForm.qml" line="75"/>
-        <location filename="MainForm.qml" line="81"/>
-        <location filename="MainForm.qml" line="87"/>
-        <location filename="MainForm.qml" line="93"/>
-        <location filename="MainForm.qml" line="99"/>
-        <location filename="MainForm.qml" line="105"/>
+        <location filename="MainForm.qml" line="41"/>
+        <source>RTS</source>
+        <translation>РТС</translation>
+    </message>
+    <message>
+        <location filename="MainForm.qml" line="50"/>
+        <location filename="MainForm.qml" line="56"/>
+        <location filename="MainForm.qml" line="62"/>
+        <location filename="MainForm.qml" line="68"/>
+        <location filename="MainForm.qml" line="74"/>
+        <location filename="MainForm.qml" line="80"/>
+        <location filename="MainForm.qml" line="86"/>
+        <location filename="MainForm.qml" line="92"/>
+        <location filename="MainForm.qml" line="98"/>
         <source>Reserve</source>
         <translation>Резерв</translation>
     </message>
     <message>
-        <location filename="MainForm.qml" line="122"/>
+        <location filename="MainForm.qml" line="121"/>
         <source>Information</source>
         <translation>Информация</translation>
     </message>
     <message>
-        <location filename="MainForm.qml" line="123"/>
+        <location filename="MainForm.qml" line="122"/>
         <source>File creation completed.</source>
         <translation>Создание файла завершено.</translation>
     </message>
     <message>
-        <location filename="MainForm.qml" line="129"/>
+        <location filename="MainForm.qml" line="128"/>
         <source>Warning</source>
         <translation>Предупреждение</translation>
     </message>
     <message>
-        <location filename="MainForm.qml" line="130"/>
+        <location filename="MainForm.qml" line="129"/>
         <source>Failed to connect to the data source.</source>
         <translation>Не удалось подключиться к источнику данных.</translation>
     </message>

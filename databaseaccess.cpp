@@ -69,7 +69,8 @@ DatabaseAccess::DatabaseAccess(QObject *parent) : QObject(parent)
                                       "CASE WHEN sp.point_type::integer = 16 THEN d.code_channel "
                                       "ELSE '' END AS channel, "
                                       "CASE WHEN sp.point_type::integer = 16 THEN d.val_elev "
-                                      "ELSE 0 END AS Habs "
+                                      "ELSE 0 END AS Habs, "
+                                      "COALESCE(gb.txt_name, '') AS country "
                                       "FROM significant_point sp "
                                       "LEFT JOIN ndb n ON n.id::integer = sp.id::integer AND n.valid = 'Y'::bpchar "
                                       "LEFT JOIN vor v ON v.id::integer = sp.id::integer AND v.valid = 'Y'::bpchar "
@@ -77,7 +78,8 @@ DatabaseAccess::DatabaseAccess(QObject *parent) : QObject(parent)
                                       "LEFT JOIN mkr m ON m.id::integer = sp.id::integer AND m.valid = 'Y'::bpchar "
                                       "LEFT JOIN \"CATALOG\" k1 ON k1.id::integer = m.code_id::integer "
                                       "LEFT JOIN \"TIMETABLE\" tm ON tm.object::integer = sp.id::integer "
-                                      "LEFT JOIN \"CATALOG\" k2 ON k2.id::integer = tm.code_work_hr::integer"));
+                                      "LEFT JOIN \"CATALOG\" k2 ON k2.id::integer = tm.code_work_hr::integer"
+                                      "LEFT JOIN \"GEO_BORDER\" gb ON sp.border = gb.id"));
 }
 
 void DatabaseAccess::initConnectDatabase(const QString &host, int port, const QString &nameDatabase, const QString &user, const QString &password)

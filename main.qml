@@ -1,13 +1,13 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
+import QtQuick.Window 2.12
 import QtQml 2.12
 import QtQuick.Layouts 1.14
 import Qt.labs.settings 1.0
 
 ApplicationWindow {
     id: window
-    width: 640
-    height: 480
+    visibility: Window.Maximized
     visible: true
     title: qsTr("DataPreparationTools")
 
