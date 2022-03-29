@@ -78,7 +78,7 @@ DatabaseAccess::DatabaseAccess(QObject *parent) : QObject(parent)
                                       "LEFT JOIN mkr m ON m.id::integer = sp.id::integer AND m.valid = 'Y'::bpchar "
                                       "LEFT JOIN \"CATALOG\" k1 ON k1.id::integer = m.code_id::integer "
                                       "LEFT JOIN \"TIMETABLE\" tm ON tm.object::integer = sp.id::integer "
-                                      "LEFT JOIN \"CATALOG\" k2 ON k2.id::integer = tm.code_work_hr::integer"
+                                      "LEFT JOIN \"CATALOG\" k2 ON k2.id::integer = tm.code_work_hr::integer "
                                       "LEFT JOIN \"GEO_BORDER\" gb ON sp.border = gb.id"));
 }
 

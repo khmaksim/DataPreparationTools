@@ -20,6 +20,7 @@ ApplicationWindow {
         property string nameDatabase: "postgres"
         property string user: "postgres"
         property string password: ""
+        property string pathToPython: ""
     }
 
     header: ToolBar {
@@ -50,7 +51,7 @@ ApplicationWindow {
 
             ToolButton {
                 id: getButton
-                icon.source: "qrc:/icons/res/icons/1x/baseline_get_app_white_24dp.png"
+                icon.source: "qrc:/icons/res/icons/1x/outline_download_white_24dp.png"
                 visible: stackView.currentItem.objectName == "ViewData"
                 onClicked: {
                     dataManagement.createShp()
