@@ -11,6 +11,7 @@ class QAbstractTableModel;
 class DataManagement: public QObject
 {
         Q_OBJECT
+        Q_PROPERTY(QString pathToPython READ getPathToPython WRITE setPathToPython)
 
     public:
         DataManagement();
@@ -24,8 +25,16 @@ class DataManagement: public QObject
         DataModel *model;
         DatabaseAccess *databaseAccess;
 
+    public:
+        QString getPathToPython() { return pathToPython; }
+        void setPathToPython(const QString &path) { pathToPython = path; }
+
     private:
         QString currentNameDate;
+        QString pathToPython;
+
+    private:
+        void readSettings();
 
     signals:
         void complitedCreateShape();

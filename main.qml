@@ -129,5 +129,6 @@ ApplicationWindow {
     Component.onCompleted: {
         readSettings();
         dataManagement.connectToSourceData(configConnectToDB)
+        dataManagement.pathToPython = settingsConnectDatabase.pathToPython
     }
 }

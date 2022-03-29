@@ -49,7 +49,12 @@ void DataManagement::fillDataModel(const QString name, const QVariant config)
 
 void DataManagement::createShp()
 {
-    Py_SetPythonHome("C:/Python27/ArcGIS10.8");
+    char* cpath;
+    std::string spath = pathToPython.toStdString();
+    cpath = new char [spath.size()+1];
+    strcpy(cpath, spath.c_str());
+    Py_SetPythonHome(cpath);
+//    Py_SetPythonHome("C:/Python27/ArcGIS10.8");
     Py_Initialize();
     do {
 //        PyObject *sys = PyImport_ImportModule("sys");

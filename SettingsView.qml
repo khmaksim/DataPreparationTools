@@ -152,12 +152,13 @@ Page {
                 return
             }
 
-            var path = fileUrl.toString();
+            var path = folder.toString();
             // remove prefixed "file:///"
             path = path.replace(/^(file:\/{3})/,"");
             // unescape html codes like '%23' for '#'
             var cleanPath = decodeURIComponent(path);
             settingsConnectDatabase.pathToPython = cleanPath
+            dataManagement.pathToPython = cleanPath
         }
     }
 
