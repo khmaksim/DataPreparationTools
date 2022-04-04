@@ -15,6 +15,7 @@ class DataManagement: public QObject
 
     public:
         DataManagement();
+        ~DataManagement();
 
         Q_INVOKABLE void connectToSourceData(const QVariant config = QVariant());
         Q_INVOKABLE void fillDataModel(const QString name, const QVariant config = QVariant());

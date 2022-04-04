@@ -108,4 +108,5 @@ def createShp(name, path_to_result):
                 country = row[11]
                 cursor.insertRow([name_rus, name, type, freq, designator, mag, id_point, lat, lon, channel, Habs, country])
         del cursor
+    del rows[:]
     print('End create shp-file')

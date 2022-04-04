@@ -11,6 +11,11 @@ DataManagement::DataManagement()
     databaseAccess = new DatabaseAccess(this);
 }
 
+DataManagement::~DataManagement()
+{
+    Py_Finalize();
+}
+
 void DataManagement::connectToSourceData(const QVariant config)
 {
     bool isConnected = databaseAccess->connect(config);
@@ -55,7 +60,13 @@ void DataManagement::createShp()
     strcpy(cpath, spath.c_str());
     Py_SetPythonHome(cpath);
 //    Py_SetPythonHome("C:/Python27/ArcGIS10.8");
-    Py_Initialize();
+    if (!Py_IsInitialized()) {
+        Py_Initialize();
+        PyRun_SimpleString("import sys");
+        PyRun_SimpleString("sys.path.append('./scripts')");
+//        PyRun_SimpleString("import create_shp");
+    }
+
     do {
 //        PyObject *sys = PyImport_ImportModule("sys");
 //        PyObject *sysPath = PyObject_GetAttrString(sys, "path");
@@ -67,8 +78,8 @@ void DataManagement::createShp()
 
 //        result = PyObject_Call(callback, NULL, dict);
 
-        PyRun_SimpleString("import sys");
-        PyRun_SimpleString("sys.path.append('./scripts')");
+//        PyRun_SimpleString("import sys");
+//        PyRun_SimpleString("sys.path.append('./scripts')");
         PyRun_SimpleString("import create_shp");
 
         for (int iRow = 0; iRow < model->rowCount(); iRow++) {
@@ -76,7 +87,13 @@ void DataManagement::createShp()
 
             for (int iCol = 0; iCol < model->columnCount(); iCol++)
                 row.append(model->index(iRow, iCol).data().toString());
-            PyRun_SimpleString(QString("create_shp.addLineData('%1')").arg(row.join(";")).toLocal8Bit().constData()/*.toLatin1()*/);
+            char* cdata;
+            std::string sdata = QString("create_shp.addLineData('%1')").arg(row.join(";")).toStdString();
+            cdata = new char [sdata.size()+1];
+            strcpy(cdata, sdata.c_str());
+
+//            PyRun_SimpleString(QString("create_shp.addLineData('%1')").arg(row.join(";")).toLocal8Bit().constData()/*.toLatin1()*/);
+            PyRun_SimpleString(cdata);
         }
 
         QDir dir(qApp->applicationDirPath());
@@ -108,6 +125,6 @@ void DataManagement::createShp()
     } while (0);
 
     PyErr_Print();
-    Py_Finalize();
+//    Py_Finalize();
     emit complitedCreateShape();
 }
