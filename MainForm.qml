@@ -20,7 +20,7 @@ Page {
             id: airwaysButton
             width: grid.getWidthItem()
             height: grid.getHeightItem()
-            text: qsTr("AIRWAYS")
+            text: qsTr("Airways")
             property string name: "airways"
             onClicked: grid.onClickedButton(name)
         }
@@ -29,7 +29,7 @@ Page {
             id: pointsButton
             width: grid.getWidthItem()
             height: grid.getHeightItem()
-            text: qsTr("POINTS")
+            text: qsTr("Points")
             property string name: "points"
             onClicked: grid.onClickedButton(name)
         }
@@ -44,11 +44,12 @@ Page {
         }
 
         Button {
-            id: button2
+            id: obstaclesButton
             width: grid.getWidthItem()
             height: grid.getHeightItem()
-            text: qsTr("Reserve")
-            enabled: false
+            text: qsTr("Obstacles")
+            property string name: "obstacles"
+            onClicked: grid.onClickedButton(name)
         }
         Button {
             width: grid.getWidthItem()

@@ -63,8 +63,14 @@ DatabaseAccess::DatabaseAccess(QObject *parent) : QObject(parent)
                                       "CAST(CASE WHEN sp.geo_lat > 0 THEN CONCAT(split_part(sp.geo_lat::varchar, '.', 1), 'N') "
                                       "WHEN sp.geo_lat < 0 THEN CONCAT(split_part(sp.geo_lat::varchar, '.', 1), 'S') "
                                       "ELSE '0' END AS text) AS lat, "
-                                      "CAST(CASE WHEN sp.geo_long > 0 THEN CONCAT(split_part(sp.geo_long::varchar, '.', 1), 'E') "
-                                      "WHEN sp.geo_long < 0 THEN CONCAT(split_part(sp.geo_long::varchar, '.',  1), 'W') "
+                                      "CAST(CASE WHEN sp.geo_long > 0 THEN "
+                                      "CASE WHEN length(split_part(sp.geo_long::varchar, '.', 1)) = 6 "
+                                      "THEN '0' || split_part(sp.geo_long::varchar, '.', 1) || 'E' "
+                                      "ELSE split_part(sp.geo_long::varchar, '.', 1) || 'E' END "
+                                      "WHEN sp.geo_long < 0 THEN "
+                                      "CASE WHEN length(split_part(sp.geo_long::varchar, '.', 1)) = 6 "
+                                      "THEN '0' || split_part(sp.geo_long::varchar, '.', 1) || 'W' "
+                                      "ELSE split_part(sp.geo_long::varchar, '.', 1) || 'W' END "
                                       "ELSE '0' END AS text) AS lon, "
                                       "CASE WHEN sp.point_type::integer = 16 THEN d.code_channel "
                                       "ELSE '' END AS channel, "
@@ -80,6 +86,10 @@ DatabaseAccess::DatabaseAccess(QObject *parent) : QObject(parent)
                                       "LEFT JOIN \"TIMETABLE\" tm ON tm.object::integer = sp.id::integer "
                                       "LEFT JOIN \"CATALOG\" k2 ON k2.id::integer = tm.code_work_hr::integer "
                                       "LEFT JOIN \"GEO_BORDER\" gb ON sp.border = gb.id"));
+
+    querySqlStr.insert("obstacle", QString("SELECT vob.txt_name, vob.code_id AS designator, vob.box_len, vob.box_wid, "
+                                           "vob.isfrangible, vob.hobj, vob.uomelev, vob.lightcolor, vob.lightmode "
+                                           "FROM public.vobstacle vob"));
 }
 
 void DatabaseAccess::initConnectDatabase(const QString &host, int port, const QString &nameDatabase, const QString &user, const QString &password)
