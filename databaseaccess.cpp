@@ -87,9 +87,9 @@ DatabaseAccess::DatabaseAccess(QObject *parent) : QObject(parent)
                                       "LEFT JOIN \"CATALOG\" k2 ON k2.id::integer = tm.code_work_hr::integer "
                                       "LEFT JOIN \"GEO_BORDER\" gb ON sp.border = gb.id"));
 
-    querySqlStr.insert("obstacle", QString("SELECT vob.txt_name, vob.code_id AS designator, vob.box_len, vob.box_wid, "
-                                           "vob.isfrangible, vob.hobj, vob.uomelev, vob.lightcolor, vob.lightmode "
-                                           "FROM public.vobstacle vob"));
+    querySqlStr.insert("obstacles", QString("SELECT vob.txt_name, vob.code_id AS designator, vob.box_len, vob.box_wid, "
+                                            "vob.isfrangible, vob.hobj, vob.uomelev, vob.lightcolor, vob.lightmode "
+                                            "FROM public.vobstacle vob"));
 }
 
 void DatabaseAccess::initConnectDatabase(const QString &host, int port, const QString &nameDatabase, const QString &user, const QString &password)

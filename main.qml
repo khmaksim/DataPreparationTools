@@ -54,7 +54,9 @@ ApplicationWindow {
                 icon.source: "qrc:/icons/res/icons/1x/outline_download_white_24dp.png"
                 visible: stackView.currentItem.objectName == "ViewData"
                 onClicked: {
+                    startStopProcess()
                     dataManagement.createShp()
+                    startStopProcess()
                 }
             }
         }
@@ -85,14 +87,6 @@ ApplicationWindow {
                     drawer.close()
                 }
             }
-//            ItemDelegate {
-//                text: qsTr("Page 2")
-//                width: parent.width
-//                onClicked: {
-//                    stackView.push("Page2Form.ui.qml")
-//                    drawer.close()
-//                }
-//            }
             ItemDelegate {
                 text: qsTr("Quit")
                 width: parent.width
@@ -108,6 +102,19 @@ ApplicationWindow {
         id: stackView
         initialItem: "MainForm.qml"
         anchors.fill: parent
+    }
+
+    BusyIndicator {
+        id: processIndicator
+        anchors.centerIn: parent
+        running: false
+        z: 1
+    }
+
+    function startStopProcess() {
+        processIndicator.running = !processIndicator.running
+        window.header.enabled = !window.header.enabled
+        window.contentItem.enabled = !window.contentItem.enabled
     }
 
     function readSettings() {

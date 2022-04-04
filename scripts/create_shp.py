@@ -108,5 +108,31 @@ def createShp(name, path_to_result):
                 country = row[11]
                 cursor.insertRow([name_rus, name, type, freq, designator, mag, id_point, lat, lon, channel, Habs, country])
         del cursor
+    elif name == 'obstacles':
+        arcpy.CreateFeatureclass_management(out_path=work_path, out_name=result_shp, geometry_type='POINT', spatial_reference = sr)
+        arcpy.AddField_management(result_shp, 'NAME','TEXT')
+        arcpy.AddField_management(result_shp, 'DESIGNATOR','TEXT')
+        arcpy.AddField_management(result_shp, 'LENGTHM','DOUBLE')
+        arcpy.AddField_management(result_shp, 'WIDTHM','DOUBLE')
+        arcpy.AddField_management(result_shp, 'FRANGIBLE','TEXT')
+        arcpy.AddField_management(result_shp, 'GEO_HEIGHT','DOUBLE')
+        arcpy.AddField_management(result_shp, 'DATUM','TEXT')
+        arcpy.AddField_management(result_shp, 'BRIGHT','TEXT')
+        arcpy.AddField_management(result_shp, 'LIGHT_TYPE','TEXT')
+
+        with arcpy.da.InsertCursor(result_shp, ['NAME', 'DESIGNATOR', 'LENGTHM', 'WIDTHM', 'FRANGIBLE', 'GEO_HEIGHT', 'DATUM', 
+            'BRIGHT', 'LIGHT_TYPE']) as cursor:
+            for row in rows:
+                name = row[0]
+                designator = row[1]
+                length = float(row[2])
+                width = float(row[3])
+                frangible = row[4]
+                height = float(row[5])
+                datum = row[6]
+                bright = row[7]
+                light_type = row[8]
+                cursor.insertRow([name, designator, length, width, frangible, height, datum, bright, light_type])
+        del cursor
     del rows[:]
     print('End create shp-file')
