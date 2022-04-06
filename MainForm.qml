@@ -22,7 +22,9 @@ Page {
             height: grid.getHeightItem()
             text: qsTr("Airways")
             property string name: "airways"
-            onClicked: grid.onClickedButton(name)
+            onClicked: {
+                grid.onClickedButton(name, text)
+            }
         }
 
         Button {
@@ -31,7 +33,9 @@ Page {
             height: grid.getHeightItem()
             text: qsTr("Points")
             property string name: "points"
-            onClicked: grid.onClickedButton(name)
+            onClicked: {
+                grid.onClickedButton(name, text)
+            }
         }
 
         Button {
@@ -40,7 +44,9 @@ Page {
             height: grid.getHeightItem()
             text: qsTr("RTS")
             property string name: "rts"
-            onClicked: grid.onClickedButton(name)
+            onClicked: {
+                grid.onClickedButton(name, text)
+            }
         }
 
         Button {
@@ -49,7 +55,9 @@ Page {
             height: grid.getHeightItem()
             text: qsTr("Obstacles")
             property string name: "obstacles"
-            onClicked: grid.onClickedButton(name)
+            onClicked: {
+                grid.onClickedButton(name, text)
+            }
         }
         Button {
             width: grid.getWidthItem()
@@ -100,9 +108,10 @@ Page {
             enabled: false
         }
 
-        function onClickedButton(name) {
+        function onClickedButton(name, title) {
+            stackView.titleViewData = title
             stackView.pop()
-            stackView.push("ViewData.qml")
+            stackView.push("ViewData.qml")            
             dataManagement.fillDataModel(name, configConnectToDB)
         }
 

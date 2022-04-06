@@ -102,6 +102,7 @@ ApplicationWindow {
         id: stackView
         initialItem: "MainForm.qml"
         anchors.fill: parent
+        property string titleViewData: ''
     }
 
     BusyIndicator {

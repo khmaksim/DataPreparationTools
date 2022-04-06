@@ -62,6 +62,10 @@ Page {
             }
         }
         Component.onCompleted: {
+            if (stackView.titleViewData.length === 0)
+                title = qsTr("View data")
+            else
+                title = qsTr("View data") + ' - ' + stackView.titleViewData
 //            dataManagement.getData()
         }
 //        sortIndicatorVisible: true
