@@ -88,7 +88,7 @@ DatabaseAccess::DatabaseAccess(QObject *parent) : QObject(parent)
                                       "LEFT JOIN \"GEO_BORDER\" gb ON sp.border = gb.id"));
 
     querySqlStr.insert("obstacles", QString("SELECT vob.txt_name, vob.code_id AS designator, vob.box_len, vob.box_wid, "
-                                            "vob.isfrangible, vob.hobj, vob.uomelev, vob.lightcolor, vob.lightmode "
+                                            "vob.isfrangible, vob.habs, vob.uomelev, vob.lightcolor, vob.lightmode "
                                             "FROM public.vobstacle vob"));
 }
 
